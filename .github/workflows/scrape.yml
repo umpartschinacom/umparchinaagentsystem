@@ -1,0 +1,28 @@
+name: Cainiao Tracking Scraper
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '*/30 * * * *'   # hər 30 dəqiqədən bir işləyir
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Repo-nu çək
+        uses: actions/checkout@v4
+
+      - name: Node.js qur
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Asılılıqları quraşdır
+        run: npm install
+
+      - name: Scraper-i işə sal
+        env:
+          SHEET_WEBAPP_URL: ${{ secrets.SHEET_WEBAPP_URL }}
+          SHEET_SECRET: ${{ secrets.SHEET_SECRET }}
+        run: node scraper.js
