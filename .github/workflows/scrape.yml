@@ -3,12 +3,16 @@ name: Cainiao Tracking Scraper
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '*/30 * * * *'   # hər 30 dəqiqədən bir işləyir
+    - cron: '0 */3 * * *'   # hər 3 saatdan bir
+
+concurrency:
+  group: cainiao-scraper
+  cancel-in-progress: false
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     steps:
       - name: Repo-nu çək
         uses: actions/checkout@v4
@@ -24,5 +28,14 @@ jobs:
       - name: Scraper-i işə sal
         env:
           SHEET_WEBAPP_URL: ${{ secrets.SHEET_WEBAPP_URL }}
-          SHEET_SECRET: ${{ secrets.SHEET_SECRET }}
+          SHEET_SECRET:     ${{ secrets.SHEET_SECRET }}
         run: node scraper.js
+
+      - name: Debug fayllarını saxla
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug
+          path: debug/
+          if-no-files-found: ignore
+          retention-days: 5
