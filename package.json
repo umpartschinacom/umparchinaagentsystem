@@ -1,7 +1,7 @@
 {
   "name": "cainiaoscraper",
-  "version": "1.0.0",
-  "description": "Cainiao tracking scraper for Google Sheets",
+  "version": "2.0.0",
+  "description": "Cainiao tracking scraper for Google Sheets (2 sheets, English statuses)",
   "main": "scraper.js",
   "scripts": {
     "start": "node scraper.js"
@@ -14,4 +14,3 @@
     "random-useragent": "^0.5.0"
   }
 }
-
